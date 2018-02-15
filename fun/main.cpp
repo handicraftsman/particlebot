@@ -38,7 +38,7 @@ void cmdfunc_cookie(PB::CommandEvent* event) noexcept {
     "%C?PURPLEepic ",
     "%C?YELLOWlegendary ",
     "%C?ORANGEholy ",
-    "%C%?CYANhi-tech ",
+    "%C?CYANhi-tech ",
     "%C?LBLUEquantum ",
     "%C?BLACKevil ",
     "%C?PURPLEmagical ",

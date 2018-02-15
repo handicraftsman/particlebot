@@ -401,6 +401,8 @@ PB::CommandEvent::CommandEvent(IRCSocket* _socket, std::string _nick, std::strin
 , message(_message)
 {}
 
+#include <ctime>
+
 void PB::CommandEvent::handler() {
   std::vector<std::string> s = split_str(message, ' ');
   command = s[0];
@@ -414,7 +416,12 @@ void PB::CommandEvent::handler() {
         if (c.first == command) {
           int lvl = bot->get_level(socket->name, host);
           if (lvl >= c.second.level) {
-            c.second.handler(this);
+            auto last = c.second.last_uses[socket->name][nick][c.first];
+            auto current = std::chrono::system_clock::now();
+            if ((current - last) > std::chrono::seconds(c.second.cooldown)) {
+              c.second.handler(this);
+              c.second.last_uses[socket->name][nick][c.first] = current;
+            }
           } else {
             nreply("Error: your permission level is " + std::to_string(lvl) + ", while at least " + std::to_string(c.second.level) +" is required!");
           }
