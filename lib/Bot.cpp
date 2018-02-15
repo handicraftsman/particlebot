@@ -43,7 +43,7 @@ PB::Bot::Bot(std::string& config_file, Guosh::LogLevel lvl, std::string& db_file
 }
 
 void PB::Bot::parse_config(std::string& config_file) {
-  log("Parsing config file... (%s)", config_file.c_str());
+  log.write("Parsing config file... (%s)", config_file.c_str());
   
   Json::Value root;  
   std::ifstream f(config_file);
@@ -54,7 +54,7 @@ void PB::Bot::parse_config(std::string& config_file) {
 
   if (!root["prefix"].isNull())
     prefix = root["prefix"].asString();
-  log("Prefix: %s", prefix.c_str());
+  log.write("Prefix: %s", prefix.c_str());
 
   if (!root["servers"].isObject())
     throw std::runtime_error("config root[\"servers\"] is not an object");
