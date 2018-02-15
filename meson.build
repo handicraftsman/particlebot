@@ -66,3 +66,15 @@ shared_library(
   cpp_pch: 'pch/libs.hpp',
   cpp_args: ['-DPB_PLUGIN']
 )
+
+shared_library(
+  'pb-fun',
+  [
+    'fun/main.cpp',
+  ],
+  dependencies: deps,
+  link_with: [ lib ],
+  include_directories: include_directories(['.']),
+  cpp_pch: 'pch/libs.hpp',
+  cpp_args: ['-DPB_PLUGIN']
+)

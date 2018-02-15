@@ -23,6 +23,7 @@ public:
   void join(std::string chan);
   void part(std::string chan, std::string reason = "Bye");
 
+  void change_nick(std::string new_nick);
   void who(std::string mask);
 
   void privmsg(std::string target, std::string message);

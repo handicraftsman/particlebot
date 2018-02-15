@@ -18,3 +18,12 @@ void cmdfunc_cache(PB::CommandEvent* event) noexcept {
     }
   }
 }
+
+void cmdfunc_echo(PB::CommandEvent* event) noexcept {
+  std::string msg = "";
+  for (auto s : event->split) {
+    msg += s + " ";
+  }
+  msg.pop_back();
+  event->socket->privmsg(event->reply_to, msg);
+}

@@ -33,6 +33,14 @@ void cmdfunc_raw(PB::CommandEvent* event) noexcept {
   event->socket->write(msg);
 }
 
+void cmdfunc_nick(PB::CommandEvent* event) noexcept {
+  if (event->split.size() != 1) {
+    event->nreply("Error: invalid argument amount");
+    return;
+  }
+  event->socket->change_nick(event->split[0]);
+}
+
 void cmdfunc_join(PB::CommandEvent* event) noexcept {
   if (event->split.empty() || event->split.size() > 5) {
     event->nreply("Error: invalid argument amount");

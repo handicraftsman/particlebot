@@ -397,6 +397,7 @@ PB::CommandEvent::CommandEvent(IRCSocket* _socket, std::string _nick, std::strin
 , user(_user)
 , host(_host)
 , target(_target)
+, reply_to(_target == socket->nick ? _nick : _target)
 , message(_message)
 {}
 
@@ -430,6 +431,7 @@ std::string PB::CommandEvent::to_s() {
     + "] user=[" + user
     + "] host=[" + host
     + "] target=[" + target
+    + "] reply_to=[" + reply_to
     + "] message=[" + message
     + "]";
 }
@@ -439,7 +441,7 @@ PB::EventType PB::CommandEvent::type() {
 }
 
 void PB::CommandEvent::reply(std::string msg) {
-  socket->privmsg(target == socket->nick ? nick : target, msg);
+  socket->privmsg(reply_to, msg);
 }
 
 void PB::CommandEvent::nreply(std::string msg) {
