@@ -5,7 +5,7 @@ PB::Bot::Bot(std::string& config_file, Guosh::LogLevel lvl, std::string& db_file
 , plugin_manager(this)
 , log("ParticleBot", lvl)
 {
-  log("Hello, world!");
+  log.write("Hello, world!");
   parse_config(config_file);
 
   if (sqlite3_open(db_file.c_str(), &db)) {

@@ -4,7 +4,7 @@ PB::EventMachine::EventMachine()
 : running(false)
 , log("EventMachine")
 {
-  log("Hello, event queue!");
+  log.write("Hello, event queue!");
   fire(new PB::TestEvent("Test Event"));
 }
 
@@ -16,7 +16,7 @@ void PB::EventMachine::fire(PB::Event* event) {
 }
 
 std::thread PB::EventMachine::loop() {
-  log("Starting event loop...");
+  log.write("Starting event loop...");
   running = true;
   return std::thread([this] () {
     while (running) {

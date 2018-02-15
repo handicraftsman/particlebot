@@ -19,7 +19,7 @@ PB::Plugin::Plugin(PB::PluginManager* _plugin_manager, std::string _name)
 , plugin_manager(_plugin_manager)
 , log("?" + _name)
 {
-  log("Hello, %s!", name.c_str());
+  log.write("Hello, %s!", name.c_str());
 
   char* error;
 
