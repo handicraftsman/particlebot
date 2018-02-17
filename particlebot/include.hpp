@@ -10,6 +10,7 @@
 #include "User.hpp"
 #include "PluginManager.hpp"
 #include "Plugin.hpp"
+#include "CPPPlugin.hpp"
 #include "CommandInfo.hpp"
 #include "Bot.hpp"
 #include "IRCSocket.hpp"

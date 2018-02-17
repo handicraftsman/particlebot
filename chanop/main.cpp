@@ -135,7 +135,7 @@ void cmdfunc_devoice(PB::CommandEvent* event) noexcept {
 
 void cmdfunc_quiet(PB::CommandEvent* event) noexcept {
   ActArgs args;
-  if (!get_act_args(event, args, false, true)) {
+  if (!get_act_args(event, args, true, false)) {
     event->nreply("Error: invalid arguments");
     return;
   }
@@ -144,7 +144,7 @@ void cmdfunc_quiet(PB::CommandEvent* event) noexcept {
 
 void cmdfunc_unquiet(PB::CommandEvent* event) noexcept {
   ActArgs args;
-  if (!get_act_args(event, args, false, true)) {
+  if (!get_act_args(event, args, true, false)) {
     event->nreply("Error: invalid arguments");
     return;
   }

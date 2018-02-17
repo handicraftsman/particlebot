@@ -63,7 +63,7 @@ void PB::Bot::parse_config(std::string& config_file) {
       throw std::runtime_error("config root[\"plugins\"] is not an array");
 
   for (Json::Value v : root["plugins"])
-    plugin_manager.load_plugin(v.asString());
+    plugin_manager.load_cpp_plugin(v.asString());
 
   for (auto it = root["servers"].begin(); it != root["servers"].end(); ++it) {
     std::string name = it.key().asString();

@@ -13,6 +13,8 @@ namespace PB {
 class Bot;
 class EventMachine;
 class IRCSocket;
+class Plugin;
+class CPPPlugin;
 
 enum class EventType {
   Event,
@@ -237,6 +239,9 @@ private:
 
 class CommandEvent : public Event {
 public:
+  friend Plugin;
+  friend CPPPlugin;
+  
   CommandEvent(IRCSocket* socket, std::string nick, std::string user, std::string host, std::string target, std::string message);
   virtual void handler();
   virtual std::string to_s();

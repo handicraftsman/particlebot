@@ -1,4 +1,4 @@
-project('particlebot', ['cpp'], default_options : ['cpp_std=gnu++17'], version: '0.1.0')
+project('particlebot', ['cpp'], default_options : ['cpp_std=gnu++17'])
 
 cxx = meson.get_compiler('cpp')
 
@@ -18,6 +18,7 @@ lib = shared_library(
     'lib/User.cpp',
     'lib/PluginManager.cpp',
     'lib/Plugin.cpp',
+    'lib/CPPPlugin.cpp',
     'lib/CommandInfo.cpp',
     'lib/Bot.cpp',
     'lib/IRCSocket.cpp'

@@ -31,11 +31,14 @@ std::thread PB::EventMachine::loop() {
             e->log.error("] %s", err.what());
           }
           for (auto p : bot->plugin_manager.plugins) {
+            p.second->handle_event(e);
+            /*
             if (p.second->event_handlers->find(e->type()) != p.second->event_handlers->end()) {
               std::thread([p, e] () {
                 (*p.second->event_handlers)[e->type()](e.get());
               }).detach();
             }
+            */
           }
         }).detach();
         queue.pop();

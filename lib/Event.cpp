@@ -103,7 +103,7 @@ static std::regex regex_nick("^:(.+?)!(.+?)@(.+?) NICK :(.+)", ECMAScript | icas
 
 void PB::IRCMessageEvent::handler() {
   socket->log.io("R> %s", raw_msg.c_str());
-  
+
   auto m = std::smatch {};
 
   if ((m = std::smatch{}, std::regex_match(raw_msg, m, regex_privmsg))) {
@@ -253,9 +253,9 @@ PB::PartEvent::PartEvent(IRCSocket* _socket, std::string _channel, std::string _
 void PB::PartEvent::handler() {}
 
 std::string PB::PartEvent::to_s() {
-  return 
+  return
       "PartEvent server=[" + socket->name
-    + "] channel=[" + channel 
+    + "] channel=[" + channel
     + "] nick=["+ nick
     + "] user=[" + user
     + "] host=[" + host
@@ -288,7 +288,7 @@ void PB::NickEvent::handler() {
 }
 
 std::string PB::NickEvent::to_s() {
-  return 
+  return
       "NickEvent server=[" + socket->name
     + "] nick=["+ nick
     + "] user=[" + user
@@ -411,23 +411,7 @@ void PB::CommandEvent::handler() {
   }
 
   for (auto& p : bot->plugin_manager.plugins) {
-    for (auto& g : (*p.second->commands)) {
-      for (auto& c : g.second) {
-        if (c.first == command) {
-          int lvl = bot->get_level(socket->name, host);
-          if (lvl >= c.second.level) {
-            auto last = c.second.last_uses[socket->name][nick][c.first];
-            auto current = std::chrono::system_clock::now();
-            if ((current - last) > std::chrono::seconds(c.second.cooldown)) {
-              c.second.handler(this);
-              c.second.last_uses[socket->name][nick][c.first] = current;
-            }
-          } else {
-            nreply("Error: your permission level is " + std::to_string(lvl) + ", while at least " + std::to_string(c.second.level) +" is required!");
-          }
-        }
-      }
-    }
+    p.second->handle_command(this);
   }
 }
 
