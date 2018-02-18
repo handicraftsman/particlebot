@@ -300,26 +300,27 @@ int lfunc_command(lua_State* L) {
 
   lua_pushnil(L);
   while (lua_next(L, 1)) {
-    if (lua_isstring(L, -2) && lua_isstring(L, -1)) {
-      std::string key(lua_tostring(L, -2));
-      std::string value(lua_tostring(L, -1));
-      if (key == "name") {
-        name = value;
-      } else if (key == "group") {
-        group = value;
-      } else if (key == "description") {
-        info.description = value;
-      } else if (key == "usage") {
-        info.usage = value;
-      }
-    } else if (lua_isstring(L, -2) && lua_isnumber(L, -1)) {
-      std::string key(lua_tostring(L, -2));
-      int value(lua_tonumber(L, -1));
-      if (key == "level") {
-        info.level = value;
-      } else if (key == "cooldown") {
-        info.cooldown = value;
-      }
+    if (lua_isstring(L, 2)) {
+      std::string key(lua_tostring(L, 2));
+      if (lua_isnumber(L, 3)) {
+        int value(lua_tonumber(L, 3));
+        if (key == "level") {
+          info.level = value;
+        } else if (key == "cooldown") {
+          info.cooldown = value;
+        }
+      } else if (lua_isstring(L, 3)) {
+        std::string value(lua_tostring(L, 3));
+        if (key == "name") {
+          name = value;
+        } else if (key == "group") {
+          group = value;
+        } else if (key == "description") {
+          info.description = value;
+        } else if (key == "usage") {
+          info.usage = value;
+        }
+      } 
     }
     lua_pop(L, 1);
   }

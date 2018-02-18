@@ -4,7 +4,7 @@ PB::Plugin::Plugin(PB::PluginManager* _plugin_manager, std::string _name, Type _
 : name(_name)
 , type(_type)
 , plugin_manager(_plugin_manager)
-, log("?" + name)
+, log((type == PB::Plugin::Type::CPP ? "?" : "@") + name)
 {
   log.write("Hello, %s!", name.c_str());
 }
