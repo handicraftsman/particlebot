@@ -18,6 +18,7 @@ void cmdfunc_raw(PB::CommandEvent* event) noexcept;
 void cmdfunc_nick(PB::CommandEvent* event) noexcept;
 void cmdfunc_join(PB::CommandEvent* event) noexcept;
 void cmdfunc_part(PB::CommandEvent* event) noexcept;
+void cmdfunc_flushq(PB::CommandEvent* event) noexcept;
 
 
 extern "C" __attribute__((used)) bool pb_init(PB::Bot* bot) noexcept {
@@ -73,6 +74,11 @@ extern "C" __attribute__((used)) bool pb_init(PB::Bot* bot) noexcept {
   cmd_part.description = "Parts a channel";
   cmd_part.usage = "<chan> [reason...]";
   cmd_part.level = 3;
+
+  PB::CommandInfo& cmd_flushq = register_command("admin", "flushq", cmdfunc_flushq);
+  cmd_flushq.description = "Flushes event queue";
+  cmd_flushq.usage = "";
+  cmd_flushq.cooldown = 5;
 
   return true;
 }

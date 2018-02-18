@@ -71,3 +71,8 @@ void cmdfunc_part(PB::CommandEvent* event) noexcept {
 
   event->socket->part(chan, reason);
 }
+
+void cmdfunc_flushq(PB::CommandEvent* event) noexcept {
+  std::queue<std::string> empty;
+  std::swap(event->socket->write_queue, empty);
+}

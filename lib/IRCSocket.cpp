@@ -115,12 +115,12 @@ static std::vector<std::string> split_every(std::string& s, size_t e) {
 
   size_t i = 0;
   for (char c : s) {
-    if (i == e) {
+    if (i == e || c == '\n') {
       o.push_back(b);
       b = "";
       i = 0;
     }
-    b += c;
+    if (c != '\n') b += c;
     ++i;
   }
   

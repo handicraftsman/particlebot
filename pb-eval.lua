@@ -34,9 +34,8 @@ command({
   end
 
   local ret = { eval(str) }
-  local out = '&BReturned:&N '
-  for _, r in ipairs(ret) do
-    out = out .. '[' .. tostring(r) .. '] '
+  
+  for i, r in ipairs(ret) do
+    reply(e, '&B#' .. i .. ':&N ' .. require('pl.pretty').write(r))
   end
-  reply(e, out)
 end)
