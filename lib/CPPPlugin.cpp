@@ -11,7 +11,7 @@ static std::string find_path_to_plugin(std::string name) {
     if (std::ifstream(path).good())
       return path;
 
-  throw std::runtime_error("Unable to find plugin " + name);
+  throw std::runtime_error("Unable to find c++ plugin " + name);
 }
 
 PB::CPPPlugin::CPPPlugin(PB::PluginManager* _plugin_manager, std::string _name)

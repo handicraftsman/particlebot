@@ -282,7 +282,7 @@ extern "C" __attribute__((used)) bool pb_init(PB::Bot* bot) noexcept {
   cmd_kick.usage = "[channel] <target> [reason]";
   cmd_kick.level = 2;
 
-  PB::CommandInfo& cmd_remove = register_command("chanop", "remove", cmdfunc_kick);
+  PB::CommandInfo& cmd_remove = register_command("chanop", "remove", cmdfunc_remove);
   cmd_remove.description = "Removes target from the given channel";
   cmd_remove.usage = "[channel] <target> [reason]";
   cmd_remove.level = 2;

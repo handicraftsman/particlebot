@@ -7,6 +7,7 @@ deps = [
   dependency('guosh'),
   dependency('jsoncpp'),
   dependency('sqlite3'),
+  dependency('lua51'),
   cxx.find_library('dl')
 ]
 
@@ -19,6 +20,7 @@ lib = shared_library(
     'lib/PluginManager.cpp',
     'lib/Plugin.cpp',
     'lib/CPPPlugin.cpp',
+    'lib/LuaPlugin.cpp',
     'lib/CommandInfo.cpp',
     'lib/Bot.cpp',
     'lib/IRCSocket.cpp'

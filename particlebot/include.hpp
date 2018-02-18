@@ -11,6 +11,7 @@
 #include "PluginManager.hpp"
 #include "Plugin.hpp"
 #include "CPPPlugin.hpp"
+#include "LuaPlugin.hpp"
 #include "CommandInfo.hpp"
 #include "Bot.hpp"
 #include "IRCSocket.hpp"

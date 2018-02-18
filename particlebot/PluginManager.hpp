@@ -16,6 +16,7 @@ public:
 
   PluginManager(Bot* bot);
   void load_cpp_plugin(std::string name);
+  void load_lua_plugin(std::string name);
   void unload_plugins();
 
 private:

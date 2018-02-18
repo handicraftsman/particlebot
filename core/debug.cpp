@@ -27,3 +27,14 @@ void cmdfunc_echo(PB::CommandEvent* event) noexcept {
   msg.pop_back();
   event->socket->privmsg(event->reply_to, msg);
 }
+
+void cmdfunc_reload(PB::CommandEvent* event) noexcept {
+  for (auto _p : event->bot->plugin_manager.plugins) {
+    if (_p.second->type == PB::Plugin::Type::Lua) {
+      PB::LuaPlugin* p = (PB::LuaPlugin*) _p.second.get();
+      p->unload();
+      p->load();
+    }
+  }
+  event->nreply("Done reloading all lua plugins!");
+}

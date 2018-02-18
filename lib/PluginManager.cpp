@@ -11,6 +11,11 @@ void PB::PluginManager::load_cpp_plugin(std::string name) {
   plugins[name] = plugin;
 }
 
+void PB::PluginManager::load_lua_plugin(std::string name) {
+  std::shared_ptr<PB::Plugin> plugin(new PB::LuaPlugin(this, name));
+  plugins[name] = plugin;
+}
+
 void PB::PluginManager::unload_plugins() {
   plugins.erase(plugins.begin(), plugins.end());
 }

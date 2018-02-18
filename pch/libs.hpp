@@ -27,3 +27,8 @@
 #include <json/json.h>
 #include <sqlite3.h>
 
+extern "C" {
+  #include "lua.h"
+  #include "lualib.h"
+  #include "lauxlib.h"
+}

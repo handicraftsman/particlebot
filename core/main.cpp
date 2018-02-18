@@ -6,6 +6,7 @@ pb_plugin_main();
 /* Debug */
 void cmdfunc_cache(PB::CommandEvent* event) noexcept;
 void cmdfunc_echo(PB::CommandEvent* event) noexcept;
+void cmdfunc_reload(PB::CommandEvent* event) noexcept;
 
 /* Help */
 void cmdfunc_help(PB::CommandEvent* event) noexcept;
@@ -30,6 +31,11 @@ extern "C" __attribute__((used)) bool pb_init(PB::Bot* bot) noexcept {
   cmd_echo.description = "Replies with the given message";
   cmd_echo.usage = "[message...]";
   cmd_echo.cooldown = 10;
+
+  PB::CommandInfo& cmd_reload = register_command("debug", "reload", cmdfunc_reload);
+  cmd_reload.description = "Reloads all plugins";
+  cmd_reload.usage = "";
+  cmd_reload.level = 4;
 
   /* Help */
   PB::CommandInfo& cmd_help = register_command("help", "help", cmdfunc_help);

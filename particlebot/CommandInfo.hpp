@@ -14,7 +14,8 @@ public:
   std::string usage;
   int level;
   int cooldown;
-  void (*handler)(PB::CommandEvent*) noexcept;
+  //void (*handler)(PB::CommandEvent*) noexcept;
+  std::function<void(PB::CommandEvent*)> handler;
   std::map<std::string, std::map<std::string, std::map<std::string, std::chrono::time_point<std::chrono::system_clock>>>> last_uses;
 };
 

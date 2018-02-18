@@ -27,7 +27,7 @@ std::thread PB::EventMachine::loop() {
           try {
             e->handler();
           } catch (std::exception& err) {
-            e->log.error("Error in %s", e->to_s());
+            e->log.error("Error in %s", e->to_s().c_str());
             e->log.error("] %s", err.what());
           }
           for (auto p : bot->plugin_manager.plugins) {

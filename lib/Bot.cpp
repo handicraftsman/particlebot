@@ -6,7 +6,6 @@ PB::Bot::Bot(std::string& config_file, Guosh::LogLevel lvl, std::string& db_file
 , log("ParticleBot", lvl)
 {
   log.write("Hello, world!");
-  parse_config(config_file);
 
   if (sqlite3_open(db_file.c_str(), &db)) {
     log.error("Error: %s", sqlite3_errmsg(db));
@@ -32,6 +31,8 @@ PB::Bot::Bot(std::string& config_file, Guosh::LogLevel lvl, std::string& db_file
   sqlite3_finalize(perms_stmt);
 
   event_machine.bot = this;
+
+  parse_config(config_file);
 
   for (auto p : sockets) {
     std::thread([p] () {
@@ -62,8 +63,14 @@ void PB::Bot::parse_config(std::string& config_file) {
   if (!root["plugins"].isArray() && !root["plugins"].isNull())
       throw std::runtime_error("config root[\"plugins\"] is not an array");
 
+  if (!root["lua-plugins"].isArray() && !root["lua-plugins"].isNull())
+      throw std::runtime_error("config root[\"lua-plugins\"] is not an array");
+
   for (Json::Value v : root["plugins"])
     plugin_manager.load_cpp_plugin(v.asString());
+
+  for (Json::Value v : root["lua-plugins"])
+    plugin_manager.load_lua_plugin(v.asString());
 
   for (auto it = root["servers"].begin(); it != root["servers"].end(); ++it) {
     std::string name = it.key().asString();
