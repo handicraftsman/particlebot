@@ -29,6 +29,7 @@ enum class EventType {
   PartEvent,
   NickEvent,
   PRIVMSGEvent,
+  CTCPEvent,
   NOTICEEvent,
   CommandEvent
 };
@@ -217,6 +218,26 @@ private:
   std::string target;
   std::string reply_to;
   std::string message;
+};
+
+
+class CTCPEvent : public Event {
+public:
+  CTCPEvent(IRCSocket* socket, std::string nick, std::string user, std::string host, std::string target, std::vector<std::string> split);
+  virtual void handler();
+  virtual std::string to_s();
+  virtual EventType type();
+  static inline EventType type_static() { return EventType::CTCPEvent; }
+
+private:
+  IRCSocket* socket;
+  std::string nick;
+  std::string user;
+  std::string host;
+  std::string target;
+  std::string reply_to;
+  std::string message;
+  std::vector<std::string> split;
 };
 
 

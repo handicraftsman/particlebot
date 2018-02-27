@@ -3,6 +3,25 @@
 using namespace std::regex_constants;
 
 /*
+ * Splitter
+ */
+
+template<typename Out>
+static void split_str(const std::string &s, char delim, Out result) {
+  std::stringstream ss(s);
+  std::string item;
+  while (std::getline(ss, item, delim)) {
+    *(result++) = item;
+  }
+}
+
+static std::vector<std::string> split_str(const std::string &s, char delim) {
+  std::vector<std::string> e;
+  split_str(s, delim, std::back_inserter(e));
+  return e;
+}
+
+/*
  * Base class (Event)
  */
 
@@ -321,6 +340,8 @@ void PB::PRIVMSGEvent::handler() {
   socket->user_cache[nick].host = host;
   if (message.size() > socket->prefix.size() && message.substr(0, socket->prefix.size()) == socket->prefix) {
     event_machine->fire(new PB::CommandEvent(socket, nick, user, host, target, message.substr(socket->prefix.size())));
+  } else if (message[0] == '\x01' && message[message.size()-1] == '\x01') {
+    event_machine->fire(new PB::CTCPEvent(socket, nick, user, host, target, split_str(message.substr(1, message.size()-2), ' ')));
   }
 }
 
@@ -337,6 +358,45 @@ std::string PB::PRIVMSGEvent::to_s() {
 
 PB::EventType PB::PRIVMSGEvent::type() {
   return PB::EventType::PRIVMSGEvent;
+}
+
+/*
+ * CTCP (CTCPEvent)
+ */
+
+PB::CTCPEvent::CTCPEvent(IRCSocket* _socket, std::string _nick, std::string _user, std::string _host, std::string _target, std::vector<std::string> _split)
+: socket(_socket)
+, nick(_nick)
+, user(_user)
+, host(_host)
+, target(_target)
+, reply_to(nick)
+, split(_split)
+{}
+
+void PB::CTCPEvent::handler() {
+  socket->user_cache[nick].nick = nick;
+  socket->user_cache[nick].user = user;
+  socket->user_cache[nick].host = host;
+  
+  if (split[0] == "VERSION") {
+    socket->nctcp(reply_to, "VERSION ParticleBot: an IRC bot in C++");
+  }
+}
+
+std::string PB::CTCPEvent::to_s() {
+  return
+      "CTCPEvent server=[" + socket->name
+    + "] nick=[" + nick
+    + "] user=[" + user
+    + "] host=[" + host
+    + "] target=[" + target
+    + "] message=[" + message
+    + "]";
+}
+
+PB::EventType PB::CTCPEvent::type() {
+  return PB::EventType::CTCPEvent;
 }
 
 /*
@@ -376,21 +436,6 @@ PB::EventType PB::NOTICEEvent::type() {
 /*
  * Command (CommandEvent)
  */
-
-template<typename Out>
-static void split_str(const std::string &s, char delim, Out result) {
-  std::stringstream ss(s);
-  std::string item;
-  while (std::getline(ss, item, delim)) {
-    *(result++) = item;
-  }
-}
-
-static std::vector<std::string> split_str(const std::string &s, char delim) {
-  std::vector<std::string> e;
-  split_str(s, delim, std::back_inserter(e));
-  return e;
-}
 
 PB::CommandEvent::CommandEvent(IRCSocket* _socket, std::string _nick, std::string _user, std::string _host, std::string _target, std::string _message)
 : socket(_socket)
