@@ -9,7 +9,7 @@ on('PRIVMSGEvent', function(e)
   end
   local url = string.match(e.message, '(https?://[%d%w%.%/%%%&%?]+%.[%d%w%.%/%%%&%?]+)')
   if url ~= nil then
-    local headers, stream = http.new_from_uri(url):go()
+    local headers, stream = http.new_from_uri(url):go(5)
     if headers == nil then
       reply(e, e.nick .. ' -> Unable to get ' .. url .. '!')
       return
