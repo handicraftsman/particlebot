@@ -215,6 +215,7 @@ private:
   std::string user;
   std::string host;
   std::string target;
+  std::string reply_to;
   std::string message;
 };
 

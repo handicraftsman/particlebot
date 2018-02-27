@@ -207,7 +207,7 @@ static void push_event_table(lua_State* L, PB::Event* _e) {
 
   case PB::EventType::PRIVMSGEvent: {
     PB::PRIVMSGEvent* e = (PB::PRIVMSGEvent*) _e;
-    lua_createtable(L, 0, 6);
+    lua_createtable(L, 0, 7);
     lua_pushstring(L, e->socket->name.c_str());
     lua_setfield(L, -2, "socket");
     lua_pushstring(L, e->nick.c_str());
@@ -218,6 +218,8 @@ static void push_event_table(lua_State* L, PB::Event* _e) {
     lua_setfield(L, -2, "host");
     lua_pushstring(L, e->target.c_str());
     lua_setfield(L, -2, "target");
+    lua_pushstring(L, e->reply_to.c_str());
+    lua_setfield(L, -2, "reply_to");
     lua_pushstring(L, e->message.c_str());
     lua_setfield(L, -2, "message");
     break;

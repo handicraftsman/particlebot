@@ -311,6 +311,7 @@ PB::PRIVMSGEvent::PRIVMSGEvent(IRCSocket* _socket, std::string _nick, std::strin
 , user(_user)
 , host(_host)
 , target(_target)
+, reply_to(_target == socket->nick ? _nick : _target)
 , message(_message)
 {}
 
