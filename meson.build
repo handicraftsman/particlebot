@@ -11,6 +11,11 @@ deps = [
   cxx.find_library('dl')
 ]
 
+r = run_command('bash', meson.current_source_dir() + '/branch.sh')
+conf_data = configuration_data()
+conf_data.set('version', r.stdout().strip())
+configure_file(input: 'config.hpp.in', output: 'config.hpp', configuration: conf_data)
+
 lib = shared_library(
   'particlebot',
   [

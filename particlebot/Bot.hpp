@@ -2,6 +2,8 @@
 
 namespace PB {
 
+extern std::string version;
+
 class CommandEvent;
 class EventMachine;
 class IRCSocket;

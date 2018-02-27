@@ -1,5 +1,9 @@
 #include "include.hpp"
 
+#include <config.hpp>
+
+std::string PB::version = PB_VERSION;
+
 PB::Bot::Bot(std::string& config_file, Guosh::LogLevel lvl, std::string& db_file)
 : prefix("!")
 , plugin_manager(this)

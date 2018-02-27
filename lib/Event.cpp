@@ -380,7 +380,7 @@ void PB::CTCPEvent::handler() {
   socket->user_cache[nick].host = host;
   
   if (split[0] == "VERSION") {
-    socket->nctcp(reply_to, "VERSION ParticleBot: an IRC bot in C++");
+    socket->nctcp(reply_to, "VERSION ParticleBot " + PB::version + ": an IRC bot in C++");
   }
 }
 
