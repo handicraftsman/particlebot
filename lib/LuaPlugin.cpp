@@ -42,6 +42,7 @@ static std::map<PB::EventType, std::string> names {
   { PB::EventType::PartEvent,       "PartEvent"       },
   { PB::EventType::NickEvent,       "NickEvent"       },
   { PB::EventType::PRIVMSGEvent,    "PRIVMSGEvent"    },
+  { PB::EventType::PRIVMSGEvent,    "CTCPEvent"       },
   { PB::EventType::NOTICEEvent,     "NOTICEEvent"     },
   { PB::EventType::CommandEvent,    "CommandEvent"    },
 };
@@ -222,6 +223,33 @@ static void push_event_table(lua_State* L, PB::Event* _e) {
     lua_setfield(L, -2, "reply_to");
     lua_pushstring(L, e->message.c_str());
     lua_setfield(L, -2, "message");
+    break;
+  }
+
+  case PB::EventType::CTCPEvent: {
+    PB::CTCPEvent* e = (PB::CTCPEvent*) _e;
+    lua_createtable(L, 0, 7);
+    lua_pushstring(L, e->socket->name.c_str());
+    lua_setfield(L, -2, "socket");
+    lua_pushstring(L, e->nick.c_str());
+    lua_setfield(L, -2, "nick");
+    lua_pushstring(L, e->user.c_str());
+    lua_setfield(L, -2, "user");
+    lua_pushstring(L, e->host.c_str());
+    lua_setfield(L, -2, "host");
+    lua_pushstring(L, e->target.c_str());
+    lua_setfield(L, -2, "target");
+    lua_pushstring(L, e->reply_to.c_str());
+    lua_setfield(L, -2, "reply_to");
+    lua_createtable(L, 0, e->split.size());
+      int i = 1;
+      for (std::string s : e->split) {
+        lua_pushinteger(L, i);
+        lua_pushstring(L, s.c_str());
+        lua_settable(L, -3);
+        ++i;
+      }
+    lua_setfield(L, -2, "split");
     break;
   }
 
