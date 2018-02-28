@@ -7,7 +7,7 @@ on('PRIVMSGEvent', function(e)
   else
     reply_to = e.target
   end
-  local url = string.match(e.message, '(https?://[%d%w%.%_-/%%%&%?]+%.[%d%w%.%_-/%%%&%?]+)')
+  local url = string.match(e.message, '(https?://[%d%w%.%_-%+=/%%%&%?]+%.[%d%w%.%_-%+=/%%%&%?]+)')
   if url ~= nil then
     local headers, stream = http.new_from_uri(url):go(5)
     if headers == nil then
