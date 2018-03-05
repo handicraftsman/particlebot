@@ -1,5 +1,5 @@
 function eval(str)
-  local f = loadstring('return ' .. str)
+  local f, err = loadstring(str)
   if f then
     local locals = {}
     local caller = debug.getinfo(2, 'f').func
@@ -17,6 +17,8 @@ function eval(str)
     setmetatable(locals, { __index = fenv })
     setfenv(f, locals)
     return f()
+  else
+    error(err)
   end
 end
 
@@ -33,9 +35,13 @@ command({
     str = str .. s .. ' '
   end
 
-  local ret = { eval(str) }
-  
-  for i, r in ipairs(ret) do
-    reply(e, '&B#' .. i .. ':&N ' .. require('pl.pretty').write(r))
+  local ok, err = pcall(function()
+    ret = { eval(str) }
+    for i, r in ipairs(ret) do
+      reply(e, '&B#' .. i .. ':&N ' .. require('pl.pretty').write(r))
+    end
+  end)
+  if not ok then
+    reply(e, '&B#Error:&N ' .. err)
   end
 end)
