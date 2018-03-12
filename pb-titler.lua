@@ -11,22 +11,22 @@ on('PRIVMSGEvent', function(e)
   if url ~= nil then
     local headers, stream = http.new_from_uri(url):go(5)
     if headers == nil then
-      reply(e, e.nick .. ' -> Unable to get ' .. url .. '!')
+      reply(e, ' -> Unable to get ' .. url .. '!')
       return
     end
     local body = stream:get_body_as_string()
     if body == nil then
-      reply(e, e.nick .. ' -> Unable to get body for ' .. url .. '!')
+      reply(e, ' -> Unable to get body for ' .. url .. '!')
     end
     if headers:get(':status') == '200' then
       local title = string.match(body, [[<title>([^<]+)</title>]])
       if title ~= nil then
-        reply(e, e.nick .. ' -> ' .. title:gsub("&nbsp;", ""):gsub("&quot;", ""):gsub("\n", " "):sub(0, 100))
+        reply(e, ' -> ' .. title:gsub("&nbsp;", ""):gsub("&quot;", ""):gsub("\n", " "):sub(0, 100))
       else
-        reply(e, e.nick .. ' -> ' .. headers:get(':status') .. ' ' .. headers:get('content-type'))
+        reply(e, ' -> ' .. headers:get(':status') .. ' ' .. headers:get('content-type'))
       end
     else
-      reply(e, e.nick .. ' -> ' .. headers:get(':status'))
+      reply(e, ' -> ' .. headers:get(':status'))
     end
   end
 end)
